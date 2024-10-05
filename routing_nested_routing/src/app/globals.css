@@ -25,3 +25,30 @@ body {
     text-wrap: balance;
   }
 }
+.header{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding-top: 20px;
+  font-weight: 500;
+  font-size: 1rem;
+  color: white;
+  background-color: #000;
+  padding: 10px;
+}
+
+.parent{
+  height: 100vh;
+  display: flex;
+  border: 2px solid red;
+}
+.leftSide{
+  height: 300px;
+  width: 30%;
+  border :2px solid red;
+}
+.rightSide{
+  height: 300px;
+  width: 70%;
+  border: 2px solid red;
+}

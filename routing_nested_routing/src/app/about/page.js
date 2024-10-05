@@ -1,13 +1,11 @@
-import Link from "next/link";
-
-function About (){
+function About(){
     return(
         <>
-        <h1 className="text-center pt-20 text-3xl font-bold">
-            WELCOME TO ABOUT PAGE
+        <h1 className="text-center text-3xl pt-4">
+        Welcome to About Page
         </h1>
-        <Link href={'/about/contact'}>Go to Contact Page</Link>
         </>
     )
 }
-export default About;
+
+export default About; 
