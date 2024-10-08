@@ -13,12 +13,11 @@ function Layout({ children }) {
             <div className="leftSide">
                 <ul>
                     <li> <Link href={'/admin/personalInformation'}>User Profile</Link></li>
-                    <li><Link href={'/admin/personalInformation'}>User Products</Link></li>
+                    <li><Link href={'/admin/usrProducts'}>User Products</Link></li>
                 </ul>
             </div>
-            <div className="rightSide"></div>
+            <div className="rightSide"> { children }</div>
             </div>
-            { children }
         </section>
     )
 }
