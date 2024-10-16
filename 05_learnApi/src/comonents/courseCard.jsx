@@ -1,7 +1,19 @@
 
-export default function CourseCard({item}){
-    return <div className="container border mx-auto rounded">
-        <h1></h1>
-        <h1></h1>
-    </div> 
+
+export default function CourseCard({ item }) {
+  return (
+    <center>
+    <div className="p-2">
+      <h1
+        className="font-bold"
+        style={{
+          fontSize: "1.5rem",
+        }}
+      >
+        {item?.title}
+      </h1>
+      <h1>{item?.duration}</h1>
+    </div>
+    </center>
+  );
 }

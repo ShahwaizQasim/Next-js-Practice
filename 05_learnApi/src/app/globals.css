@@ -52,3 +52,24 @@ body {
   width: 70%;
   border: 2px solid red;
 }
+form{
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 10px;
+  margin-bottom: 40px !important;
+}
+.myInput{
+  height: 40px;
+  width: 200px;
+  border: 1px solid #ccc;
+  padding: 6px;
+}
+.myButton{
+  height: 40px;
+  width: 100px;
+  border: 1px solid #ccc;
+}
+.myButton:active{
+  transform: scale(0.9);
+}
