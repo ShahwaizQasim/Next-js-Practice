@@ -3,6 +3,8 @@ import SearchInput from "@/components/searchInput";
 export default async function Posts({ searchParams }) {
     console.log('searchParams', searchParams);
     const { q, limit=100, skip = 0 } = searchParams;
+    console.log("q", q);
+    
     let res = await fetch(q ?
         `https://dummyjson.com/posts/search?q=${q}&limit=${limit}&skip=${skip}` :
         `https://dummyjson.com/posts?limit=${limit}&skip=${skip}`);
