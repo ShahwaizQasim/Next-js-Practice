@@ -3,7 +3,6 @@ import Link from "next/link";
 async function Posts() {
   let res = await fetch("https://dummyjson.com/posts", { cache: "no-cache" });
   res = await res.json();
-  console.log("res", res);
 
   return (
     <>
