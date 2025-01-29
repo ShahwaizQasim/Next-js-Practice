@@ -9,8 +9,8 @@ async function Course() {
     <>
       <h1 className="text-center text-3xl pt-4">Courses</h1>
       {
-        res?.courses?.map((data)=> {
-          return <CourseCard key={data.id} item={data}/>
+        res?.courses?.map((data) => {
+          return <CourseCard key={data.id} item={data} />
         })
       }
     </>
