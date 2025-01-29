@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-function Header(){
-    return(
+function Header() {
+    return (
         <>
-        <div className="header">
-        <Link href="/home">Home</Link>
-        <Link href="/about">About</Link>
-        <Link href="/admin">Admin</Link>
-        </div>
+            <div className="header">
+                <Link href="/home">Home</Link>
+                <Link href="/about">About</Link>
+                <Link href="/admin">Admin</Link>
+            </div>
         </>
     )
 }
