@@ -4,6 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios"
 
 // Zod Schema for Validation
 const signupSchema = z.object({
@@ -16,13 +17,22 @@ export default function SignupPage() {
     const [showPassword, setShowPassword] = useState(false);
 
     // React Hook Form setup
-    const { register, formState: { errors }, handleSubmit } = useForm({
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        reset
+    } = useForm({
         resolver: zodResolver(signupSchema),
     });
 
     // Form Submit Handler
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit = async(data: any) => {
+
+        const response = await axios.post('/api/users/register');
+        console.log("data", data);
+        console.log("response", response);
+        reset();
     }
 
     return (
@@ -36,24 +46,24 @@ export default function SignupPage() {
                     <div>
                         <label className="block text-gray-700 font-medium">User Name</label>
                         <input
-                            {...register("userName", { required: true })}
+                            {...register("userName")}
                             type="text"
                             placeholder="Enter your username"
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.userName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'}`}
                         />
-                        {errors.userName?.type === 'required' && <p role="alert" className="text-red-600 pt-1">User name is required</p>}
+                        {errors.userName && <p role="alert" className="text-red-600 pt-1">{errors.userName.message}</p>}
                     </div>
 
                     {/* Email */}
                     <div>
                         <label className="block text-gray-700 font-medium">Email</label>
                         <input
-                            {...register("email", { required: true })}
+                            {...register("email")}
                             type="email"
                             placeholder="Enter your email"
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'}`}
                         />
-                        {errors.email?.type === 'required' && <p role="alert" className="text-red-600 pt-1">Email is required</p>}
+                        {errors.email && <p role="alert" className="text-red-600 pt-1">{errors.email.message}</p>}
 
                     </div>
 
@@ -62,12 +72,12 @@ export default function SignupPage() {
                         <label className="block text-gray-700 font-medium">Password</label>
                         <div className="relative">
                             <input
-                                {...register("password", { required: true })}
+                                {...register("password")}
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Enter your password"
-                                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.userName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'}`}
                             />
-                            {errors.password?.type === 'required' && <p role="alert" className="text-red-600 pt-1">Password is required</p>}
+                            {errors.password && <p role="alert" className="text-red-600 pt-1">{errors.password.message}</p>}
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
