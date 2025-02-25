@@ -1,19 +1,37 @@
 import mongoose, { Schema } from "mongoose";
+import { boolean } from "zod";
 
 const UserSchema = new Schema({
     userName: {
         type: String,
-        required: true
+        required: [true, "please provide a password"]
     },
     email: {
         type: String,
         unique: true,
-        required: true
+        required: [true, "please provide a email"]
     },
-    password: { 
+    password: {
         type: String,
-        required : true
-    }
-})
+        required: [true, "please provide a password"]
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
+    forgotPasswordToken: String,
+    forgotPasswordTokenExpiry: Date,
+    verifyToken: String,
+    verifyTokenExpiry: Date,
 
-export const UserModel = mongoose.models.User || mongoose.model("User", UserSchema);
+},
+    {
+        timestamps: true
+    }
+)
+
+export const UserModel = mongoose.models.User || mongoose.model("User", UserSchema)
