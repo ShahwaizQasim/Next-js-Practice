@@ -22,8 +22,7 @@ export async function POST(req: NextRequest) {
         // create new user 
         let user = new UserModel({ userName, email, password: hashPassword });
         user = await user.save();
-        console.log("User", user);
-        
+        console.log("User", user); 
 
         // send verification email
         await sendEmail({ email, emailType: "VERIFY", userId: user._id })
@@ -32,6 +31,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: false, msg: "user created successfully", user }, {status: 200});
 
     } catch (error) {
-        return NextResponse.json({ error: false, msg: (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: true, msg: (error as Error).message }, { status: 500 });
     }
 } 

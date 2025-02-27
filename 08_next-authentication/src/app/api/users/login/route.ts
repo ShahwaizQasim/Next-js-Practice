@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
         const { email, password } = await req.json(); // user request
         const user = await UserModel.findOne({ email });
         if (!user) {
-            return NextResponse.json({ error: false, msg: "user not found", status: 404 });
+            return NextResponse.json({ error: true, msg: "user not found", status: 404 });
         }
 
         // Compare Password
@@ -20,17 +20,21 @@ export async function POST(req: NextRequest) {
         }
 
         // Generate JWT Token 
-        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET_KEY as string, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET_KEY! as string, { expiresIn: '1h' });
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             error: false,
-            msg: "user login successfully",
+            msg: "login successfully",
             user: user,
             token,
         })
+        response.cookies.set("token", token, {
+            httpOnly: true,
+        })
+        return response;
 
     } catch (error) {
-        return NextResponse.json({ error: false, msg: (error as Error).message });
+        return NextResponse.json({ error: true, msg: (error as Error).message });
     }
 }
 
