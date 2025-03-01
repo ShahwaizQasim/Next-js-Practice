@@ -9,11 +9,11 @@ export async function POST(req: NextRequest) {
         console.log('token', token);
 
         if (!token) {
-            NextResponse.json({ error: true, msg: "Invalid Token" }, { status: 400 })
+            return NextResponse.json({ error: true, msg: "Invalid Token" }, { status: 400 })
         }
         const user = await UserModel.findOne({ verifyToken: token, verifyTokenExpiry: { $gt: Date.now() } });
         if (!user) {
-            NextResponse.json({ error: true, msg: "User Does Not Exist" }, { status: 400 })
+            return NextResponse.json({ error: true, msg: "User Does Not Exist" }, { status: 400 })
         }
         console.log("user", user);
         user.isVerified = true;
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         
         await user.save();
 
-        NextResponse.json({
+        return NextResponse.json({
             error: false,
             msg: "Email Verified Successfully",
         })
@@ -30,6 +30,6 @@ export async function POST(req: NextRequest) {
      
 
     } catch (error: any) {
-        NextResponse.json({ error: true, msg: (error as Error).message, }, { status: 500 })
+        return NextResponse.json({ error: true, msg: (error as Error).message, }, { status: 500 })
     }
 }
