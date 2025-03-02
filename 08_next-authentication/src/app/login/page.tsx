@@ -32,7 +32,7 @@ export default function LoginPage() {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/users/login");
+      const response = await axios.post("/api/users/login", data);
       console.log(data);
       console.log(response);
       toast.success("Login Successfully")
@@ -43,6 +43,7 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
+    reset();
   };
 
   return (
