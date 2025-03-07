@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Success } from "../components/alert";
 
 // Zod Schema for Validation
 const signupSchema = z.object({
@@ -35,12 +35,12 @@ export default function SignupPage() {
     try {
       setLoading(true);
       const response = await axios.post("/api/users/register", data);
-      toast.success("Please Verify Your Email");
+      Success("Please check your email to verify your account", "success");
       console.log("response", response.data);
       router.push("/login");
     } catch (error) {
       console.log("Error", error);
-      toast.error((error as Error).message);
+      Success((error as Error).message, "error");
     } finally {
       setLoading(false);
     }
@@ -68,11 +68,10 @@ export default function SignupPage() {
                 {...register("userName")}
                 type="text"
                 placeholder="Enter your username"
-                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.userName
-                    ? "border-red-500 focus:ring-red-500"
-                    : "border-gray-300 focus:ring-blue-500"
-                }`}
+                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.userName
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+                  }`}
               />
               {errors.userName && (
                 <p role="alert" className="text-red-600 pt-1">
@@ -88,11 +87,10 @@ export default function SignupPage() {
                 {...register("email")}
                 type="email"
                 placeholder="Enter your email"
-                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.email
-                    ? "border-red-500 focus:ring-red-500"
-                    : "border-gray-300 focus:ring-blue-500"
-                }`}
+                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+                  }`}
               />
               {errors.email && (
                 <p role="alert" className="text-red-600 pt-1">
@@ -111,11 +109,10 @@ export default function SignupPage() {
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.userName
-                      ? "border-red-500 focus:ring-red-500"
-                      : "border-gray-300 focus:ring-blue-500"
-                  }`}
+                  className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.userName
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-blue-500"
+                    }`}
                 />
                 {errors.password && (
                   <p role="alert" className="text-red-600 pt-1">

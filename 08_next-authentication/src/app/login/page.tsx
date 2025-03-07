@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
+import { Success } from "../components/alert";
 
 // Zod Schema for Validation
 const signupSchema = z.object({
@@ -33,13 +33,15 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const response = await axios.post("/api/users/login", data);
+      // if (response?.error == true) {
+      //   Success(response.data.msg, "error")
+      // }
       console.log(data);
       console.log(response);
-      toast.success("Login Successfully")
-      router.push("/");
+      // router.push("/");
     } catch (error) {
       console.log(error);
-      toast.error((error as Error).message)
+      Success((error as Error).message, "error")
     } finally {
       setLoading(false);
     }
@@ -62,11 +64,10 @@ export default function LoginPage() {
               {...register("email")}
               type="email"
               placeholder="Enter your email"
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.email
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-              }`}
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email
+                ? "border-red-500 focus:ring-red-500"
+                : "border-gray-300 focus:ring-blue-500"
+                }`}
             />
             {errors.email && (
               <p role="alert" className="text-red-600 pt-1">
@@ -83,11 +84,10 @@ export default function LoginPage() {
                 {...register("password")}
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.password
-                    ? "border-red-500 focus:ring-red-500"
-                    : "border-gray-300 focus:ring-blue-500"
-                }`}
+                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+                  }`}
               />
               {errors.password && (
                 <p role="alert" className="text-red-600 pt-1">

@@ -21,7 +21,6 @@ export default function SearchInput() {
         <input className="border p-2 w-full mt-5 mb-3" placeholder="search"
             onChange={(e) => {
                 handleSearch(e.target.value);
-
             }}
             defaultValue={searchParams.get('q')?.toString()} />
     )

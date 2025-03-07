@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken"
 export const sendEmail = async ({ email, emailType, userId }: any) => {
     try {
         // Create a hashedToken 
-        var token = jwt.sign({userId}, process.env.JWT_SECRET_KEY as string);
+        var token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY as string);
 
         if (emailType === "VERIFY") {
             await UserModel.findByIdAndUpdate(userId,
@@ -19,17 +19,16 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
 
         // Looking to send emails in production? Check out our Email API/SMTP product!
         var transport = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
+            service: "gmail",
             auth: {
-                user: "e23abf1eac1e04",
-                pass: "ac5513e17c970e"
+                user: process.env.GMAIL,
+                pass: process.env.GMAIL_PASSWORD
             }
         });
         const mailOption = {
-            from: 'syedshahwaiz32@gmail.com', // sender address
+            from: `SHAHWAIZ APP <${process.env.GMAIL}>`, // sender address
             to: email, // list of receivers
-            subject: emailType === 'Verify' ? 'Verify Your Email' : "Reset Your Password", // Subject line
+            subject: emailType === 'VERIFY' ? 'Verify Your Email' : "Reset Your Password", // Subject line
             html: `<p>Click <a href="${process.env.DOMAIN}/verifyemail?token=${token}"> Here</a> to ${emailType === "Verify" ? "verify your email" : "reset your password"}
             or copy and paste the link below in your browser. 
             <br/> ${process.env.DOMAIN}/verifyemail?token=${token}
