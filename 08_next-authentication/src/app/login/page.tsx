@@ -4,7 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Success } from "../components/alert";
 
@@ -33,20 +33,25 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const response = await axios.post("/api/users/login", data);
-      // if (response?.error == true) {
-      //   Success(response.data.msg, "error")
-      // }
+      Success("Login Successfully", "success")
       console.log(data);
-      console.log(response);
-      // router.push("/");
+      console.log("response=>", response);
+      router.push("/");
     } catch (error) {
-      console.log(error);
-      Success((error as Error).message, "error")
+      if (error instanceof AxiosError) {
+        console.log("error=>", error);
+        const errorData = error?.response?.data?.msg;
+        Success(errorData, "error")
+        console.log("Error data:", errorData);
+      } else {
+        Success((error as Error).message, "error")
+        console.log("Unknown error:", error);
+      }
     } finally {
       setLoading(false);
     }
     reset();
-  };
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -125,4 +130,5 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+
+};
