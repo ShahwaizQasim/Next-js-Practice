@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Success } from "../components/alert";
+import Link from "next/link";
 
 // Zod Schema for Validation
 const signupSchema = z.object({
@@ -83,7 +84,12 @@ export default function LoginPage() {
 
           {/* Password Field */}
           <div>
-            <label className="block text-gray-700 font-medium">Password</label>
+            <div className="flex justify-between">
+              <label className="block text-gray-700 font-medium">Password</label>
+              <Link href={'/forgotpassword'}>
+              <label className="block text-gray-700 font-medium cursor-pointer">Forgot your password?</label>
+              </Link>
+            </div>
             <div className="relative">
               <input
                 {...register("password")}
