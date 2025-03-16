@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { Error, Success } from "../components/alert";
 
 // Zod Schema for Validation
 const forgotPasswordSchema = z.object({
@@ -14,8 +16,6 @@ const forgotPasswordSchema = z.object({
 const ForgotPassword = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState("");
 
   // React Hook Form setup
   const {
@@ -29,15 +29,13 @@ const ForgotPassword = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      console.log("form submitted");
-
       setLoading(true);
-      console.log("data", data);
-      setStatus("success");
-      reset();
+      await axios.post("/api/users/forgot-password", data);
+      Success("A verification code has been sent to your email.", "success");
     } catch (error) {
-      console.log(error);
+      Error((error as Error).message, "error");
     } finally {
+      reset();
       setLoading(false);
     }
   };
@@ -85,7 +83,7 @@ const ForgotPassword = () => {
                     type="submit"
                     className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-70"
                   >
-                    {loading ? "Sending..." : "Send Verification Code"}
+                    {loading ? "Sending..." : "Send Verification Email"}
                   </button>
                 </form>
               </>
