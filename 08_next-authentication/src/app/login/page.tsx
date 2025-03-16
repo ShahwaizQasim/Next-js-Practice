@@ -34,25 +34,29 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const response = await axios.post("/api/users/login", data);
-      Success("Login Successfully", "success")
-      console.log(data);
-      console.log("response=>", response);
-      router.push("/");
+      if (response.data.error) {
+        Success(response.data.msg, "error");
+      } else {
+        Success("Login Successfully", "success");
+        router.push("/");
+        console.log(data);
+        console.log("response=>", response);
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log("error=>", error);
         const errorData = error?.response?.data?.msg;
-        Success(errorData, "error")
+        Success(errorData, "error");
         console.log("Error data:", errorData);
       } else {
-        Success((error as Error).message, "error")
+        Success((error as Error).message, "error");
         console.log("Unknown error:", error);
       }
     } finally {
       setLoading(false);
     }
     reset();
-  }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -70,10 +74,11 @@ export default function LoginPage() {
               {...register("email")}
               type="email"
               placeholder="Enter your email"
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email
-                ? "border-red-500 focus:ring-red-500"
-                : "border-gray-300 focus:ring-blue-500"
-                }`}
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.email
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+              }`}
             />
             {errors.email && (
               <p role="alert" className="text-red-600 pt-1">
@@ -85,9 +90,13 @@ export default function LoginPage() {
           {/* Password Field */}
           <div>
             <div className="flex justify-between">
-              <label className="block text-gray-700 font-medium">Password</label>
-              <Link href={'/forgotpassword'}>
-              <label className="block text-gray-700 font-medium cursor-pointer hover:underline">Forgot your password?</label>
+              <label className="block text-gray-700 font-medium">
+                Password
+              </label>
+              <Link href={"/forgotpassword"}>
+                <label className="block text-gray-700 font-medium cursor-pointer hover:underline">
+                  Forgot your password?
+                </label>
               </Link>
             </div>
             <div className="relative">
@@ -95,10 +104,11 @@ export default function LoginPage() {
                 {...register("password")}
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-                  }`}
+                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.password
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-blue-500"
+                }`}
               />
               {errors.password && (
                 <p role="alert" className="text-red-600 pt-1">
@@ -136,5 +146,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-
-};
+}

@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,9 +17,11 @@ const resetPasswordSchema = z.object({
 
 const ForgotPassword = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const [Token, setToken] = useState("");
 
   // React Hook Form setup
   const {
@@ -31,11 +33,29 @@ const ForgotPassword = () => {
     resolver: zodResolver(resetPasswordSchema),
   });
 
+  useEffect(() => {
+    const urlToken = searchParams.get("token");
+    setToken(urlToken || "");
+  }, [searchParams]);
+
   const onSubmit = async (data: any) => {
     try {
-      setLoading(true)
+      setLoading(true);
+      await axios.post("/api/users/reset-password", {
+        Token,
+        password1: data.password1,
+        password2: data.password2,
+      });
+      console.log(data);
+      
+      Success("your password reset has been sucessfully", "success");
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
       console.log("Data=>", data);
     } catch (error) {
+      Success((error as Error).message, "error");
+      console.error("API Error:", error.response?.data || error.message);
     } finally {
       reset();
       setLoading(false);
