@@ -27,7 +27,6 @@ const EmailVerification = () => {
         const urlparams = new URLSearchParams(window.location.search);  // is method se hum searchbar se value get karte hain
         const urlToken = urlparams.get('token'); // or get karne se jo value apne searchbar me di hoi hai wo mil jati hai
         setToken(urlToken || "");
-        // console.log("urlToken", urlToken);
     }, [])
 
     useEffect(() => {

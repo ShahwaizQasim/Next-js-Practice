@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         // Compare Password
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
-            return NextResponse.json({ error: true, msg: "your password is incorrect", status: 401 });
+            return NextResponse.json({ error: true, msg: "your password is incorrect" }, { status: 401 });
         }
 
         // Generate JWT Token 

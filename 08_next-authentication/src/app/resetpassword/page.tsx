@@ -15,7 +15,7 @@ const resetPasswordSchema = z.object({
   password2: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -41,21 +41,26 @@ const ForgotPassword = () => {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      await axios.post("/api/users/reset-password", {
-        Token,
+      const response = await axios.post("/api/users/reset-password", {
+        token: Token,
         password1: data.password1,
         password2: data.password2,
       });
-      console.log(data);
-      
+      console.log("response", response);
+
       Success("your password reset has been sucessfully", "success");
       setTimeout(() => {
         router.push("/login");
       }, 2000);
       console.log("Data=>", data);
     } catch (error) {
-      Success((error as Error).message, "error");
       console.error("API Error:", error.response?.data || error.message);
+      // Handle specific error messages
+      if (error.response?.data?.message) {
+        Success(error.response.data.message, "error"); // Show the exact error message
+      } else {
+        Success("Something went wrong, please try again", "error");
+      }
     } finally {
       reset();
       setLoading(false);
@@ -87,11 +92,10 @@ const ForgotPassword = () => {
                         type={`${showPassword ? "text" : "password"}`}
                         id="newPassword"
                         placeholder="Enter your password"
-                        className={`w-full p-3 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                          errors.password1
-                            ? "border-red-500 focus:ring-red-500"
-                            : "border-gray-300 focus:ring-blue-500"
-                        }`}
+                        className={`w-full p-3 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password1
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-blue-500"
+                          }`}
                       />
                       {errors.password1 && (
                         <p role="alert" className="text-red-600 pt-1">
@@ -119,11 +123,10 @@ const ForgotPassword = () => {
                         type={`${showPassword2 ? "text" : "password"}`}
                         id="confirmPassword"
                         placeholder="Enter your password"
-                        className={`w-full p-3 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                          errors.password2
-                            ? "border-red-500 focus:ring-red-500"
-                            : "border-gray-300 focus:ring-blue-500"
-                        }`}
+                        className={`w-full p-3 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password2
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-blue-500"
+                          }`}
                       />
                       {errors.password2 && (
                         <p role="alert" className="text-red-600 pt-1">
@@ -180,4 +183,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;

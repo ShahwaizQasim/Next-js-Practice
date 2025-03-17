@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     if (password1 !== password2) {
       return NextResponse.json(
         {
-          error: false,
+          error: true,
           message: "Password do not match",
         },
         { status: 400 }
@@ -23,9 +23,6 @@ export async function POST(req: NextRequest) {
     let userId;
     let decoded: any = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
     userId = decoded.userId;
-
-    console.log("decoded", decoded);
-    console.log("userId", userId);
 
     const user = await UserModel.findById(userId);
     if (!user) {
