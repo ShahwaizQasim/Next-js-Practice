@@ -1,6 +1,12 @@
+import AddUser from "@/components/addUser";
+import DisplayUser from "@/components/displayUser";
+import "./globals.css";
 
 export default function Home() {
   return (
-      <h1 className="text-5xl font-bold">Hello World</h1>
+    <>
+      <AddUser />
+      <DisplayUser />
+    </>
   );
 }
