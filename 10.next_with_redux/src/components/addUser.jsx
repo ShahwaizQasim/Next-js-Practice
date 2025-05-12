@@ -1,11 +1,15 @@
 "use client";
+import { addUser } from "@/redux/slice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function AddUser() {
   const [name, setName] = useState("");
+  const dispatch = useDispatch();
 
   const handleUser = () => {
     console.log("name", name);
+    dispatch(addUser(name))
     
   };
 
@@ -17,7 +21,7 @@ export default function AddUser() {
             <label className="block text-gray-700 font-medium">Name</label>
             <input
               type="text"
-              placeholder="Enter your email"
+              placeholder="Enter your name"
               value={name}
               onChange={(e)=> setName(e.target.value) }
               className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2`}

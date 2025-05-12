@@ -9,9 +9,11 @@ const Slice = createSlice({
     initialState,
     reducers: {
         addUser: (state, action) => {
+            console.log("action", action);
+            
             const data = {
-                id: nanoid,
-                name: action.name
+                id: nanoid(),
+                name: action.payload
             }
             state.users.push(data);
         }
