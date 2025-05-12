@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     // Hash the new password
     const hashedPassword = await bcrypt.hash(password1, 10);
 
-    await UserModel.findByIdAndUpdate(userId, { password: hashedPassword});
+    await UserModel.findByIdAndUpdate(userId, { password: hashedPassword});11
 
     return NextResponse.json(
       {
