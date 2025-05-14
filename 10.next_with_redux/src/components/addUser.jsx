@@ -8,9 +8,7 @@ export default function AddUser() {
   const dispatch = useDispatch();
 
   const handleUser = () => {
-    console.log("name", name);
     dispatch(addUser(name))
-    
   };
 
   return (
